@@ -394,7 +394,7 @@ LINUXINCLUDE    := \
 KBUILD_CPPFLAGS := -D__KERNEL__
 
 KBUILD_CFLAGS   := -Wundef -Wstrict-prototypes -Wno-trigraphs \
-                   -Wincompatible-pointer-types \
+                   -Werror=incompatible-pointer-types \
 		   -fno-strict-aliasing -fno-common \
 		   -Wno-format-security \
 		   -std=gnu89 $(call cc-option,-fno-PIE)
