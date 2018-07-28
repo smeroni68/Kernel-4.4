@@ -137,6 +137,13 @@ config INTEL_MID_PTI
 	  You should select this driver if the target kernel is meant for
 	  an Intel Atom (non-netbook) mobile device containing a MIPI
 	  P1149.7 standard implementation.
+	  
+config FPC1020_REE
+	tristate "FPC1020 fingerprint sensor support"
+	help
+	  The FPC1020 is a fingerprint sensor for smartphone, only manage
+	  IRQ & HW reset gpio in the REE side.
+	  If unsure, say N.	  
 
 config SGI_IOC4
 	tristate "SGI IOC4 Base IO support"
