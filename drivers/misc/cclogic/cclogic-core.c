@@ -1588,7 +1588,7 @@ static int cclogic_remove(struct i2c_client *client)
 	return 0;
 }
 
-#ifdef CONFIG_PM_RUNTIME
+#ifdef CONFIG_PM
 /*
  *
  */
