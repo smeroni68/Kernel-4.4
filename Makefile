@@ -395,6 +395,8 @@ KBUILD_CPPFLAGS := -D__KERNEL__
 
 KBUILD_CFLAGS   := -Wundef -Wstrict-prototypes -Wno-trigraphs \
                    -Werror=incompatible-pointer-types \
+		   -Wint-conversion \
+		   -Wdeclaration-after-statement \
 		   -fno-strict-aliasing -fno-common \
 		   -Wno-format-security \
 		   -std=gnu89 $(call cc-option,-fno-PIE)
