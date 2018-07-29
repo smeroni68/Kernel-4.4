@@ -494,7 +494,6 @@ void notrace ramoops_console_write_buf(const char *buf, size_t size)
 	persistent_ram_write(cxt->cprz, buf, size);
 }
 
-#ifdef CONFIG_OF
 static struct of_device_id ramoops_of_match[] = {
 	{ .compatible = "ramoops", },
 	{ },
@@ -528,12 +527,6 @@ static void  ramoops_of_init(struct platform_device *pdev)
 	pdata->mem_size = size;
 	pdata->console_size = console;
 }
-#else
-static inline void ramoops_of_init(struct platform_device *pdev)
-{
-	return;
-}
-#endif
 
 static int ramoops_probe(struct platform_device *pdev)
 {
