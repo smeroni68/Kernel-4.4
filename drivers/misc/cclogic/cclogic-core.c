@@ -88,13 +88,13 @@ int cclogic_vbus_power_on(struct cclogic_dev *cclogic_dev, bool enable)
 /*
  *
  */
-static int cclogic_reg_set_optimum_mode_check(struct regulator *reg,
+static int cclogic_reg_set_load_check(struct regulator *reg,
 		int load_uA)
 {
 	pr_debug("[%s][%d]\n", __func__, __LINE__);
 
 	return (regulator_count_voltages(reg) > 0) ?
-		regulator_set_optimum_mode(reg, load_uA) : 0;
+		regulator_set_load(reg, load_uA) : 0;
 }
 /*
  *
@@ -108,14 +108,14 @@ static int cclogic_power_on(struct cclogic_dev *cclogic_dev, bool on)
 	if (cclogic_dev->platform_data->i2c_pull_up) {	
 		if (on == false){
 			if(cclogic_dev->regulator_en){
-				cclogic_reg_set_optimum_mode_check(
+				cclogic_reg_set_load_check(
 						       cclogic_dev->vcc_i2c, 0);
 				regulator_disable(cclogic_dev->vcc_i2c);
 				cclogic_dev->regulator_en = false;
 			}
 		}else{
 			if(!cclogic_dev->regulator_en){
-				ret = cclogic_reg_set_optimum_mode_check(
+				ret = cclogic_reg_set_load_check(
 				      cclogic_dev->vcc_i2c,CCLOGIC_I2C_LOAD_UA);
 				if (ret < 0) {
 					dev_err(&cclogic_dev->i2c_client->dev,
@@ -137,7 +137,7 @@ static int cclogic_power_on(struct cclogic_dev *cclogic_dev, bool on)
 	return 0;
 
 error_reg_en_vcc_i2c:
-	cclogic_reg_set_optimum_mode_check(cclogic_dev->vcc_i2c, 0);
+	cclogic_reg_set_load_check(cclogic_dev->vcc_i2c, 0);
 error_reg_opt_i2c:
 	cclogic_dev->regulator_en = false;
 	return ret;
