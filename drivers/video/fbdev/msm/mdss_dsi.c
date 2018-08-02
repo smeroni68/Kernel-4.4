@@ -1520,10 +1520,6 @@ int mdss_dsi_reset_dual_display(struct mdss_dsi_ctrl_pdata *ctrl_pdata)
 }
 #endif
 
-#ifdef CONFIG_SOMC_PANEL_INCELL
-extern bool incell_dsi_execute_lp11_init(void);
-#endif
-
 int mdss_dsi_on(struct mdss_panel_data *pdata)
 {
 	int ret = 0;
@@ -1612,9 +1608,6 @@ int mdss_dsi_on(struct mdss_panel_data *pdata)
 	 * Issue hardware reset line after enabling the DSI clocks and data
 	 * data lanes for LP11 init
 	 */
-#ifdef CONFIG_SOMC_PANEL_INCELL
-	if (incell_dsi_execute_lp11_init())
-#endif
 	if (mipi->lp11_init) {
 #ifdef CONFIG_FB_MSM_MDSS_SPECIFIC_PANEL
 		mdss_dsi_reset_dual_display(ctrl_pdata);
@@ -1701,9 +1694,6 @@ static int mdss_dsi_pinctrl_init(struct platform_device *pdev)
 	if (IS_ERR_OR_NULL(ctrl_pdata->pin_res.gpio_state_suspend))
 		pr_warn("%s: can not get sleep pinstate\n", __func__);
 
-#ifdef CONFIG_SOMC_PANEL_INCELL
-	return incell_pinctrl_init(ctrl_pdata);
-#endif
 	return 0;
 }
 
@@ -3435,15 +3425,6 @@ static int mdss_dsi_ctrl_probe(struct platform_device *pdev)
 
 	ctrl_pdata->mdss_util = util;
 	atomic_set(&ctrl_pdata->te_irq_ready, 0);
-
-#ifdef CONFIG_FB_MSM_MDSS_SPECIFIC_PANEL
-	rc = somc_panel_allocate(pdev, ctrl_pdata);
-	if (unlikely(rc != 0)) {
-		pr_err("%s: FAILED: cannot allocate somc_panel structures\n",
-			__func__);
-		return rc;
-	}
-#endif
 
 	ctrl_name = of_get_property(pdev->dev.of_node, "label", NULL);
 	if (!ctrl_name)
