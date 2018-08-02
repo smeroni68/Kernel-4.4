@@ -1545,16 +1545,6 @@ static int mdss_fb_probe(struct platform_device *pdev)
 		if (mdss_fb_register_input_handler(mfd))
 			pr_err("failed to register input handler\n");
 
-#ifdef CONFIG_FB_MSM_MDSS_SPECIFIC_PANEL
-	if ((mfd->panel_info->type == MIPI_VIDEO_PANEL) ||
-		(mfd->panel_info->type == MIPI_CMD_PANEL))
-		mipi_dsi_panel_create_debugfs(mfd);
-
-#ifdef CONFIG_SOMC_PANEL_INCELL
-	incell_driver_init(mfd->panel_info->cont_splash_enabled);
-#endif
-#endif
-
 	INIT_DELAYED_WORK(&mfd->idle_notify_work, __mdss_fb_idle_notify_work);
 
 	return rc;
@@ -2325,18 +2315,9 @@ static int mdss_fb_blank_sub(int blank_mode, struct fb_info *info,
 	case FB_BLANK_HSYNC_SUSPEND:
 	case FB_BLANK_POWERDOWN:
 	default:
-#ifdef CONFIG_SOMC_PANEL_INCELL
-		incell_panel_fb_notifier_call_chain(mfd,
-					FB_BLANK_POWERDOWN, true);
-#endif
 		req_power_state = MDSS_PANEL_POWER_OFF;
 		pr_debug("blank powerdown called\n");
 		ret = mdss_fb_blank_blank(mfd, req_power_state);
-
-#ifdef CONFIG_SOMC_PANEL_INCELL
-		incell_panel_fb_notifier_call_chain(mfd,
-					FB_BLANK_POWERDOWN, false);
-#endif
 
 		break;
 	}
@@ -4055,9 +4036,6 @@ static int __mdss_fb_perform_commit(struct msm_fb_data_type *mfd)
 		else
 			pr_warn("no kickoff function setup for fb%d\n",
 					mfd->index);
-#ifdef CONFIG_FB_MSM_MDSS_SPECIFIC_PANEL
-		somc_panel_fpsd_data_update(mfd);
-#endif
 	} else if (fb_backup->atomic_commit) {
 		if (mfd->mdp.kickoff_fnc)
 			ret = mfd->mdp.kickoff_fnc(mfd,
@@ -4065,9 +4043,6 @@ static int __mdss_fb_perform_commit(struct msm_fb_data_type *mfd)
 		else
 			pr_warn("no kickoff function setup for fb%d\n",
 				mfd->index);
-#ifdef CONFIG_FB_MSM_MDSS_SPECIFIC_PANEL
-		somc_panel_fpsd_data_update(mfd);
-#endif
 		fb_backup->atomic_commit = false;
 	} else {
 		ret = mdss_fb_pan_display_sub(&fb_backup->disp_commit.var,
