@@ -393,6 +393,16 @@
 	qcom,platform-bklight-en-gpio = <&pm8994_gpios 14 0>;
 };
 
+&dsi_truly_1080_vid {
+	qcom,panel-supply-entries = <&dsi_panel_pwr_supply>;
+};
+ &dsi_truly_1080_cmd {
+	qcom,panel-supply-entries = <&dsi_panel_pwr_supply>;
+	qcom,ulps-enabled;
+	qcom,partial-update-enabled;
+	qcom,panel-roi-alignment = <2 2 4 2 1080 2>;
+};
+
 &ibb_regulator {
 	qcom,qpnp-ibb-discharge-resistor = <32>;
 };
