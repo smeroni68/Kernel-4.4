@@ -11,7 +11,6 @@
 	qcom,mdss-dsi-pwm-gpio = <&pmi8994_mpps 1 0>;
 	qcom,mdss-dsi-bl-min-level = <1>;
 	qcom,mdss-dsi-bl-max-level = <4095>;
-	qcom,cont-splash-enabled;
 };
 
 &usb3 {
@@ -21,7 +20,8 @@
 &mdss_dsi0 {
 	qcom,platform-bklight-en-gpio = <&pm8994_gpios 22 0>;
 	/delete-property/ qcom,platform-te-gpio;
-	qcom,display-id = <&dsi_tianma_otm1901a_vid >;
+	qcom,display-id = "primary";
+	qcom,dsi-pref-prim-pan = <&dsi_tianma_otm1901a_vid>;
 };
 
 &dsi_tianma_otm1901a_vid {
