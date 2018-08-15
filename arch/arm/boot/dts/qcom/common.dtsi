@@ -94,14 +94,6 @@
 			gpio-key,wakeup;
 			debounce-interval = <15>;
 		};
-		vol_dn {
-			label = "volume_down";
-			gpios = <&pm8994_gpios 4 0x1>;
-			linux,input-type = <1>;
-			linux,code = <114>;
-			gpio-key,wakeup;
-			debounce-interval = <15>;
-		};
 	};
 
 	hall_switch {
@@ -279,15 +271,9 @@
 	};
 };
 
-tasha_codec {
-			swr_master {
-				wsa881x@21170213 {
-				wsa881x_213: wsa881x@21170213 {
-					qcom,spkr-sd-n-gpio = <&pmi8994_gpios 3 0>;
-				};
-			};
- 		};
- 	};
+&wsa881x_213 {
+	qcom,spkr-sd-n-gpio = <&pmi8994_gpios 3 0>;
+};
 
 &pm8994_gpios {
 	/delete-node/ gpio@cd00;
