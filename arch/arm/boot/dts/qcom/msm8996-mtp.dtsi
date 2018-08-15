@@ -715,6 +715,15 @@
 			gpio-key,wakeup;
 			debounce-interval = <15>;
 		};
+		
+		vol_dn {
+			label = "volume_down";
+			gpios = <&pm8994_gpios 2 0x1>;
+			linux,input-type = <1>;
+			linux,code = <114>;
+			gpio-key,wakeup;
+			debounce-interval = <15>;
+		};
 
 		cam_snapshot {
 			label = "cam_snapshot";
